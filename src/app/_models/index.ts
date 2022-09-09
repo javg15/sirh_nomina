@@ -2,7 +2,12 @@
 
 import Archivos, { ArchivosInitializer, } from './archivos';
 import Catplanteles, { CatplantelesInitializer } from './catplanteles';
-import Catvariablesbase, { CatvariablesbaseInitializer } from './catvariablesbase';
+import Catpercepciones, {  } from './catpercepciones';
+import Catdeducciones, {  } from './catdeducciones';
+import Catquincena, {  } from './catquincena';
+import Catzonaeconomica, {  } from './catzonaeconomica';
+import Categorias, {  } from './categorias';
+import Categoriasasignacion, {  } from './categoriasasignacion';
 import Log, { LogInitializer, LogId } from './log';
 import Modulos, { ModulosInitializer, ModulosId } from './modulos';
 import Personal, { PersonalInitializer, } from './personal';
@@ -13,7 +18,12 @@ import Usuarios, { UsuariosInitializer, UsuariosId } from './usuarios';
 type Model =
   | Archivos
   | Catplanteles
-  | Catvariablesbase
+  | Catpercepciones
+  | Catdeducciones
+  | Categoriasasignacion
+  | Catquincena
+  | Catzonaeconomica
+  | Categorias
   | Log
   | Modulos
   | Personal
@@ -23,8 +33,13 @@ type Model =
 
 interface ModelTypeMap {
   'archivos': Archivos;
+  'catzonaeconomica':Catzonaeconomica;
+  'catquincena':Catquincena;
   'catplanteles':Catplanteles;
-  'catvariablesbase':Catvariablesbase;
+  'catpercepciones':Catpercepciones;
+  'catdeducciones':Catdeducciones;
+  'categoriasasignacion':Categoriasasignacion;
+  'categorias':Categorias;
   'log': Log;
   'modulos': Modulos;
   'personal': Personal;
@@ -51,7 +66,6 @@ interface ModelIdTypeMap {
 type Initializer =
   | ArchivosInitializer
   | CatplantelesInitializer
-  | CatvariablesbaseInitializer
   | LogInitializer
   | ModulosInitializer
   | PersonalInitializer
@@ -62,7 +76,6 @@ type Initializer =
 interface InitializerTypeMap {
   'archivos': ArchivosInitializer;
   'catplanteles':CatplantelesInitializer;
-  'catvariablesbase':CatvariablesbaseInitializer;
   'log': LogInitializer;
   'modulos': ModulosInitializer;
   'personal': PersonalInitializer;
@@ -73,7 +86,12 @@ interface InitializerTypeMap {
 
 export {
   Archivos, ArchivosInitializer,
-  Catvariablesbase,CatvariablesbaseInitializer,
+  Catquincena,
+  Catzonaeconomica,
+  Catpercepciones,
+  Catdeducciones,
+  Categoriasasignacion,
+  Categorias,
   Log, LogInitializer, LogId,
   Modulos, ModulosInitializer, ModulosId,
   Personal, PersonalInitializer,

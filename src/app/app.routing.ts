@@ -65,8 +65,16 @@ const routes: Routes = [
         loadChildren: () => import('./views/catalogos/catplanteles/catplanteles.module').then(m => m.CatplantelesModule)
       },
       {
-        path: 'catalogos/catvariablesbase',
-        loadChildren: () => import('./views/catalogos/catvariablesbase/catvariablesbase.module').then(m => m.CatvariablesbaseModule)
+        path: 'catalogos/catpercepciones',
+        loadChildren: () => import('./views/catalogos/catpercepciones/catpercepciones.module').then(m => m.CatpercepcionesModule)
+      },
+      {
+        path: 'catalogos/catdeducciones',
+        loadChildren: () => import('./views/catalogos/catdeducciones/catdeducciones.module').then(m => m.CatdeduccionesModule)
+      },
+      {
+        path: 'catalogos/categoriasasignacion',
+        loadChildren: () => import('./views/catalogos/categoriasasignacion/categoriasasignacion.module').then(m => m.CategoriasasignacionModule)
       },
       {
         path: 'catalogos/personal',
