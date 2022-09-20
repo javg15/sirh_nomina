@@ -14,6 +14,8 @@ export default interface Categoriaspercdeducpermitidas {
 
   id_catquincena_fin: number | null;
 
+  id_personal: number | null;
+
   state: string | null;
 
   created_at: Date | null;

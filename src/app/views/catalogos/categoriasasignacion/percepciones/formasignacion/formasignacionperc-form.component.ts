@@ -2,11 +2,13 @@ import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, Eve
 import { Subject } from 'rxjs';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Categoriasasignacion,Catquincena,Catzonaeconomica,Categorias  } from '../../../../../_models';
+import { Categoriasasignacion,Catquincena,Catzonaeconomica,Categorias,Personal  } from '../../../../../_models';
 import { CategoriasasignacionpercsubService } from '../services/categoriasasignacionpercsub.service';
 import { CatzonaeconomicaService } from '../../../catzonaeconomica/services/catzonaeconomica.service';
 import { CatquincenaService } from '../../../catquincena/services/catquincena.service';
 import { CategoriasService } from '../../../categorias/services/categorias.service';
+import { PersonalService } from '../../../personal/services/personal.service';
+
 import { ActivatedRoute } from '@angular/router';
 
 import { ValidationSummaryComponent } from '../../../../_shared/validation/validation-summary.component';
@@ -14,6 +16,8 @@ import { actionsButtonSave, titulosModal } from '../../../../../../environments/
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../../_services/is-loading/is-loading.service';
 import { environment } from '../../../../../../environments/environment';
+
+import { AutocompleteComponent } from 'angular-ng-autocomplete';
 
 declare var $: any;
 declare var jQuery: any;
@@ -40,6 +44,7 @@ export class CategoriasasignacionpercsubFormComponent implements OnInit, OnDestr
   successModalTimeOut: null | ReturnType<typeof setTimeout> = null;
 
   private elementModal: any;
+  @ViewChild('id_personal') id_personal:AutocompleteComponent;
   @ViewChild('basicModal') basicModal: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
@@ -49,7 +54,11 @@ export class CategoriasasignacionpercsubFormComponent implements OnInit, OnDestr
   catzonaeconomicaCat:Catzonaeconomica[];
   categoriasCat:Categorias[];
   catmovimientosCat:any[];
-  record_codigo:String;
+  catpersonalCat:Personal[];
+  record_tipomovimiento:String="C";
+  keywordSearch = 'full_name';
+  isLoadingSearch:boolean;
+  record_personal="";
 
   public customPatterns = { '0': { pattern: new RegExp('\[0-9a-zA-Z\\u00C0-\\u00FF \]')} };
 
@@ -59,7 +68,7 @@ export class CategoriasasignacionpercsubFormComponent implements OnInit, OnDestr
     private catzonaeconomicaSvc: CatzonaeconomicaService,
     private catquincenaSvc: CatquincenaService,
     private categoriasSvc: CategoriasService,
-    
+    private personalSvc:PersonalService,
     private route: ActivatedRoute
       ) {
       this.elementModal = el.nativeElement;
@@ -76,7 +85,7 @@ export class CategoriasasignacionpercsubFormComponent implements OnInit, OnDestr
 
   newRecord(idParent:number,tipo:string): Categoriasasignacion {
     return {
-      id: 0,  id_categorias:0, id_catpercdeduc:idParent,tipopercdeduc:tipo,
+      id: 0,  id_categorias:0, id_catpercdeduc:idParent,tipopercdeduc:tipo,id_personal:0,
       id_catzonaeconomica: 0, id_catquincena_ini: 0, id_catquincena_fin:0,
       state: '',  created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,
     };
@@ -111,9 +120,9 @@ export class CategoriasasignacionpercsubFormComponent implements OnInit, OnDestr
 
     if(this.actionForm.toUpperCase()!=="VER"){
       this.validSummary.resetErrorMessages(form);
-console.log("this.record=>",this.record)
+
       await this.isLoadingService.add(
-      this.categoriasasignacionpercsubService.setRecord(this.record,this.actionForm).subscribe(resp => {
+      this.categoriasasignacionpercsubService.setRecord(this.record,this.actionForm,this.record_tipomovimiento).subscribe(resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
@@ -133,6 +142,9 @@ console.log("this.record=>",this.record)
     this.botonAccion=actionsButtonSave[accion];
     this.catmovimientosCat=this.categoriasCat;
     
+    //limpiar autocomplete
+    this.record_personal="";
+    if(this.id_personal){ this.id_personal.clear();this.id_personal.close();}
 
     this.tituloForm="Asignación de Categoría " + titulosModal[accion] + " registro";
     if(idItem=="0"){
@@ -140,9 +152,30 @@ console.log("this.record=>",this.record)
     } else {
       this.categoriasasignacionpercsubService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
+        if(this.record.id_categorias>0){
+          this.record_tipomovimiento="C"
+        }
+        else{
+          this.record_tipomovimiento="E";
+          
+          this.personalSvc.getRecord(this.record.id_personal).subscribe(resp => {
+
+            if(resp!=null){
+              this.record_personal =resp.numeemp + " - "
+                +  resp.nombre + " " + resp.apellidopaterno
+                + " " + resp.apellidomaterno + " - " + resp.curp;
+
+              if(this.id_personal){
+                this.id_personal.initialValue = this.record_personal;
+                this.id_personal.searchInput.nativeElement.value = this.record_personal;
+                this.record.id_personal=resp.id;
+              }
+            }
+          });
+        }
       });
     }
-
+    
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
     this.basicModal.show();
   }
@@ -158,6 +191,25 @@ console.log("this.record=>",this.record)
   // log contenido de objeto en formulario
   get diagnosticValidate() { return JSON.stringify(this.record); }
 
-  
+  onSelectTipoMovimiento(value){
+    this.record_tipomovimiento=value;
+  }
+  /*********************
+   autocomplete id_personal
+   *********************/
+  onChangeSearchIdPersonal(val: string) {
+    this.isLoadingSearch = true;
+    this.personalSvc.getCatalogoSegunBusqueda(val).subscribe(resp => {
+      this.catpersonalCat = resp;
+      this.isLoadingSearch = false;
+    });
+    // fetch remote data from here
+    // And reassign the 'data' which is binded to 'data' property.
+  }
+
+  onSelectIdPersonal(val: any) {
+    let items=val["full_name"].split(" -- ");
+    this.record.id_personal=parseInt(items[2]);
+  }
 
 }

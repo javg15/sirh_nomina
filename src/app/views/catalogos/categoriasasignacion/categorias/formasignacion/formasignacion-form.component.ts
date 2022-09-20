@@ -83,7 +83,7 @@ export class CategoriasasignacionsubFormComponent implements OnInit, OnDestroy {
 
   newRecord(idParent:number,tipo:string): Categoriasasignacion {
     return {
-      id: 0,  id_categorias:idParent, id_catpercdeduc:0,tipopercdeduc:tipo,
+      id: 0,  id_categorias:idParent, id_catpercdeduc:0,tipopercdeduc:tipo,id_personal:0,
       id_catzonaeconomica: 0, id_catquincena_ini: 0, id_catquincena_fin:0,
       state: '',  created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,
     };
@@ -120,7 +120,7 @@ export class CategoriasasignacionsubFormComponent implements OnInit, OnDestroy {
       this.validSummary.resetErrorMessages(form);
 
       await this.isLoadingService.add(
-      this.categoriasasignacionsubService.setRecord(this.record,this.actionForm).subscribe(resp => {
+      this.categoriasasignacionsubService.setRecord(this.record,this.actionForm,"C").subscribe(resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }

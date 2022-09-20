@@ -1,4 +1,4 @@
-<div bsModal #basicModal="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+<div bsModal #basicModalPercepcionesadeudos="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-full-height modal-right" role="document" style="background: rgb(140, 255, 0); top: 20px;">
         <div class="modal-content modal-form">
             <div class="modal-header">
@@ -13,25 +13,10 @@
                     <input type="hidden" name="action" value="{{ actionForm }}">
                     <div class="form-group">
                         <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
-                        <input type="hidden" [(ngModel)]="record.id_categorias" class="form-control" name="Código">
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-3">
-                            <label for="tipomovimiento">Tipo de movimiento</label>
-                            <select class="form-control" [(ngModel)]="record_tipomovimiento" name="Tipo de movimiento" (change)="onSelectTipoMovimiento($event.target.value)"  [disabled]="actionForm=='nuevo'?false:true">
-                                <option value="">--</option>
-                                <option value="C">Categoría</option>
-                                <option value="E">Empleado</option>
-                            </select>
-                        </div>
-                        <div *ngIf="record_tipomovimiento=='C'" class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="id_categorias">Categoría</label>
-                                <ng-select2 [(ngModel)]="record.id_categorias" [data]="categoriasCat" [allowClear]="true" width="100%" name="Categoría" [disabled]="actionForm=='nuevo'?false:true">
-                                </ng-select2>
-                            </div>
-                        </div>
-                        <div *ngIf="record_tipomovimiento=='E'" class="form-group col-sm-4">
+                        
+                        <div class="form-group col-sm-6">
                             <div class="form-group">
                                 <label for="id_personal">Personal</label>
                                 <div class="ng-autocomplete">
@@ -55,32 +40,72 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_cattiposadeudos">Tipo de adeudo</label>
+                                <select [(ngModel)]="record.id_cattiposadeudos" class="form-control" name="Tipo de adeudo" (change)="onChangeTipoAdeudo($event.target.value)" [disabled]="actionForm=='nuevo'?false:true">
+                                    <option value="">--</option>
+                                    <option *ngFor="let col of cattiposadeudosCat" [value]="col.id">{{ col.descripcion }}</option>
+                                  </select>
+
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-3">
                             <div class="form-group">
-                                <label for="id_catquincena_ini">Quincena de inicio</label>
-                                <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de inicio">
+                                <label for="id_catquincena_aplicacion">Quincena de aplicación</label>
+                                <ng-select2 [(ngModel)]="record.id_catquincena_aplicacion" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de aplicación" [disabled]="true">
                                 </ng-select2>
                             </div>
                         </div>
                         <div class="form-group col-sm-3">
                             <div class="form-group">
-                                <label for="id_catquincena_fin">Quincena de término</label>
-                                <ng-select2 [(ngModel)]="record.id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de término">
+                                <label for="id_catquincena_ini">Inicio de adeudo</label>
+                                <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de inicio" [disabled]="true">
+                                </ng-select2>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catquincena_fin">Término de adeudo</label>
+                                <ng-select2 [(ngModel)]="record.id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de término" [disabled]="true">
                                 </ng-select2>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
                             <div class="form-group">
-                                <label for="id_catzonaeconomica">Zona Económica</label>
-                                <select class="form-control" [(ngModel)]="record.id_catzonaeconomica" name="Zona Económica">
-                                <option *ngFor="let col of catzonaeconomicaCat" [value]="col.id">{{ col.descripcion }}</option>
-                                </select>
+                                <label for="record_quincenasadeudadas">Quincenas adeudadas</label>
+                                <input type="text" [(ngModel)]="record_quincenasadeudadas" class="form-control" name="Quincenas adeudadas" (change)="onChangeQuincenasAdeudadas($event.target.value)" [disabled]="actionForm=='nuevo'?false:true">
                             </div>
                         </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="record_restarquincenas">Restar a quincena final</label>
+                                <input type="text" [(ngModel)]="record_restarquincenas" class="form-control" name="Restar a quincena final" (change)="onChangeQuincenasRestar($event.target.value)" [disabled]="actionForm=='nuevo'?false:true"> 
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="editarDias" class="row">
+                        <form [formGroup]="formQuincenas">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Quincena</th>
+                                        <th>Días a pagar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of quincenasCat">
+                                        <td>{{ item.quincena }}</td>
+                                        <td><input type="text"  id="{{item.id}}"  formControlName="{{item.quincena}}" value="{{item.dias}}" disabled="{{actionForm=='nuevo'?false:true}}"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
                     </div>
                     <div class="row">
                         &nbsp;

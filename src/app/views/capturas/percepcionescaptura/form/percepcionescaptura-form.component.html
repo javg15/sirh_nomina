@@ -1,4 +1,4 @@
-<div bsModal #basicModal="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+<div bsModal #basicModalPercepcionescaptura="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-full-height modal-right" role="document" style="background: rgb(140, 255, 0); top: 20px;">
         <div class="modal-content modal-form">
             <div class="modal-header">
@@ -13,25 +13,16 @@
                     <input type="hidden" name="action" value="{{ actionForm }}">
                     <div class="form-group">
                         <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
-                        <input type="hidden" [(ngModel)]="record.id_categorias" class="form-control" name="Código">
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-3">
-                            <label for="tipomovimiento">Tipo de movimiento</label>
-                            <select class="form-control" [(ngModel)]="record_tipomovimiento" name="Tipo de movimiento" (change)="onSelectTipoMovimiento($event.target.value)"  [disabled]="actionForm=='nuevo'?false:true">
-                                <option value="">--</option>
-                                <option value="C">Categoría</option>
-                                <option value="E">Empleado</option>
-                            </select>
-                        </div>
-                        <div *ngIf="record_tipomovimiento=='C'" class="form-group col-sm-3">
                             <div class="form-group">
-                                <label for="id_categorias">Categoría</label>
-                                <ng-select2 [(ngModel)]="record.id_categorias" [data]="categoriasCat" [allowClear]="true" width="100%" name="Categoría" [disabled]="actionForm=='nuevo'?false:true">
+                                <label for="id_catpercepciones">Percepción</label>
+                                <ng-select2 [(ngModel)]="record.id_catpercepciones" [data]="catpercepcionesCat" [allowClear]="true" width="100%" name="Percepción" [disabled]="actionForm=='nuevo'?false:true">
                                 </ng-select2>
                             </div>
                         </div>
-                        <div *ngIf="record_tipomovimiento=='E'" class="form-group col-sm-4">
+                        <div class="form-group col-sm-6">
                             <div class="form-group">
                                 <label for="id_personal">Personal</label>
                                 <div class="ng-autocomplete">
@@ -59,28 +50,41 @@
                     <div class="row">
                         <div class="form-group col-sm-3">
                             <div class="form-group">
+                                <label for="cantidadquincenas">Cantidad de quincenas</label>
+                                <input type="text" [(ngModel)]="record.cantidadquincenas" class="form-control" name="Cantidad de quincenas" (change)="onChangeCantidadQuincenas($event.target.value)">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
                                 <label for="id_catquincena_ini">Quincena de inicio</label>
                                 <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de inicio">
                                 </ng-select2>
                             </div>
                         </div>
+
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_catquincena_fin">Quincena de término</label>
-                                <ng-select2 [(ngModel)]="record.id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de término">
+                                <ng-select2 [(ngModel)]="record.id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de término" [disabled]="!editarQuincenaFinal">
                                 </ng-select2>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
                             <div class="form-group">
-                                <label for="id_catzonaeconomica">Zona Económica</label>
-                                <select class="form-control" [(ngModel)]="record.id_catzonaeconomica" name="Zona Económica">
-                                <option *ngFor="let col of catzonaeconomicaCat" [value]="col.id">{{ col.descripcion }}</option>
-                                </select>
+                                <label for="importetotal">Importe de la percepción</label>
+                                <input type="text" [(ngModel)]="record.importetotal" class="form-control" name="Importe de la percepción">
                             </div>
                         </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="diasapagar">Días a pagar</label>
+                                <input type="text" [(ngModel)]="record.diasapagar" class="form-control" name="Días a pagar">
+                            </div>
+                        </div>
+                        
+                        
                     </div>
                     <div class="row">
                         &nbsp;

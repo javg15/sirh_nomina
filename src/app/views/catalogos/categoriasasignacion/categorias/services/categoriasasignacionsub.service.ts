@@ -51,10 +51,10 @@ export class CategoriasasignacionsubService {
   }
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
-  public setRecord(dataPack, actionForm): Observable<any> {
+  public setRecord(dataPack, actionForm,record_tipomovimiento): Observable<any> {
 
     return this.http.post(this.API_URL + '/categoriasasignacion/setRecord',
-      { dataPack, actionForm }
+      { dataPack, actionForm,record_tipomovimiento }
       , httpOptions);
   }
 

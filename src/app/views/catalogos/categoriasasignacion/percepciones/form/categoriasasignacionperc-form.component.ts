@@ -198,7 +198,7 @@ export class CategoriasasignacionpercFormComponent implements OnInit, OnDestroy 
     //Percepciones
     this.dtOptionsAdicional.raw++;
 
-    this.dtOptionsAdicional.fkeyvalue=[this.record_id_catpercdeduc,'P'];
+    this.dtOptionsAdicional.fkeyvalue=[this.record_id_catpercdeduc,this.dtOptionsAdicional.tipopercdeduc];
     this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
     this.categoriasasignacionpercService.getAdminSub(this.dataTablesParameters).subscribe(resp => {

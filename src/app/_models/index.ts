@@ -6,8 +6,12 @@ import Catpercepciones, {  } from './catpercepciones';
 import Catdeducciones, {  } from './catdeducciones';
 import Catquincena, {  } from './catquincena';
 import Catzonaeconomica, {  } from './catzonaeconomica';
+import Percepcionescaptura, {  } from './percepcionescaptura';
+import Deduccionescaptura, {  } from './deduccionescaptura';
+import Percepcionesadeudos, {  } from './percepcionesadeudos';
 import Categorias, {  } from './categorias';
 import Categoriasasignacion, {  } from './categoriasasignacion';
+import Cattiposadeudos, {  } from './cattiposadeudos';
 import Log, { LogInitializer, LogId } from './log';
 import Modulos, { ModulosInitializer, ModulosId } from './modulos';
 import Personal, { PersonalInitializer, } from './personal';
@@ -21,8 +25,12 @@ type Model =
   | Catpercepciones
   | Catdeducciones
   | Categoriasasignacion
+  | Cattiposadeudos
   | Catquincena
   | Catzonaeconomica
+  | Percepcionescaptura
+  | Deduccionescaptura
+  | Percepcionesadeudos
   | Categorias
   | Log
   | Modulos
@@ -39,7 +47,11 @@ interface ModelTypeMap {
   'catpercepciones':Catpercepciones;
   'catdeducciones':Catdeducciones;
   'categoriasasignacion':Categoriasasignacion;
+  'cattiposadeudos':Cattiposadeudos;
   'categorias':Categorias;
+  'percepcionescaptura':Percepcionescaptura;
+  'deduccionescaptura':Deduccionescaptura;
+  'percepcionesadeudos':Percepcionesadeudos;
   'log': Log;
   'modulos': Modulos;
   'personal': Personal;
@@ -91,7 +103,11 @@ export {
   Catpercepciones,
   Catdeducciones,
   Categoriasasignacion,
+  Cattiposadeudos,
   Categorias,
+  Percepcionescaptura,
+  Deduccionescaptura,
+  Percepcionesadeudos,
   Log, LogInitializer, LogId,
   Modulos, ModulosInitializer, ModulosId,
   Personal, PersonalInitializer,

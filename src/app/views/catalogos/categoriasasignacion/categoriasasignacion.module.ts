@@ -18,6 +18,7 @@ import { CategoriasasignacionpercsubFormComponent } from './percepciones/formasi
 
 import { DataTablesModule } from 'angular-datatables';
 import { NgSelect2Module } from 'ng-select2';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 // Tabs Component
 import { TabsModule } from 'ngx-bootstrap/tabs';
 
@@ -30,6 +31,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     ModalModule.forRoot(),
     TabsModule.forRoot(),
     NgSelect2Module,
+    AutocompleteLibModule,
     SharedModule
   ],
   declarations: [

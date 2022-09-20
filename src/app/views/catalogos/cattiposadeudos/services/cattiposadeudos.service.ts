@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { DataTablesResponse } from '../../../../../classes/data-tables-response';
+import { DataTablesResponse } from '../../../../classes/data-tables-response';
 
-import { environment } from '../../../../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriasasignacionpercsubService {
+export class CattiposadeudosService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -29,7 +29,7 @@ export class CategoriasasignacionpercsubService {
       setTimeout(() => {
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/categoriasasignacion/getAdminSubPerc',
+          this.API_URL + '/cattiposadeudos/getAdmin',
           { solocabeceras: 1, opcionesAdicionales: { raw: 0 } }, {}
         ).subscribe(resp => {
           o.next(resp.data[0]);
@@ -39,26 +39,50 @@ export class CategoriasasignacionpercsubService {
   }
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/categoriasasignacion/getRecordPerc',
+    return this.http.post(this.API_URL + '/cattiposadeudos/getRecord',
       { id }
       , httpOptions);
   }
-
-  public getAdmin(dataTablesParameters): Observable<any> {
-    return this.http.post(this.API_URL + '/categoriasasignacion/getAdminSubPerc',
-      { dataTablesParameters }
+  public getQuincenaActiva(): Observable<any> {
+    return this.http.post(this.API_URL + '/cattiposadeudos/getQuincenaActiva',
+      {  }
       , httpOptions);
   }
+
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
-  public setRecord(dataPack, actionForm,record_tipomovimiento): Observable<any> {
+  public setRecord(dataPack, actionForm): Observable<any> {
 
-    return this.http.post(this.API_URL + '/categoriasasignacion/setRecordPerc',
-      { dataPack, actionForm,record_tipomovimiento }
+    return this.http.post(this.API_URL + '/cattiposadeudos/setRecord',
+      { dataPack, actionForm }
       , httpOptions);
   }
 
-  
+  public setUpdateFromWebService(id_semestre): Observable<any> {
+
+    return this.http.post(this.API_URL + '/cattiposadeudos/setUpdateFromWebService',
+      { id_semestre }
+      , httpOptions);
+  }
+
+  public getCatalogo(): Observable<any> {
+    return this.http.post(this.API_URL + '/cattiposadeudos/getCatalogo',
+      {}
+      , httpOptions);
+  }
+
+  public getCatalogoSegunAnio(anio): Observable<any> {
+    return this.http.post(this.API_URL + '/cattiposadeudos/getCatalogoSegunAnio',
+      { anio }
+      , httpOptions);
+  }
+
+  public getCatalogoSegunSemestre(id_semestre): Observable<any> {
+    return this.http.post(this.API_URL + '/cattiposadeudos/getCatalogoSegunSemestre',
+      { id_semestre }
+      , httpOptions);
+  }
+
   // array de modales
   public add(modal: any) {
     this.modals.push(modal);
@@ -68,9 +92,9 @@ export class CategoriasasignacionpercsubService {
     this.modals = this.modals.filter(x => x.id !== id);
   }
 
-  public open(id: string, accion: string, idItem: number, idParent: number, tipo:string) {
+  public open(id: string, accion: string, idItem: number) {
     let modal: any = this.modals.filter(x => x.id === id)[0];
-    modal.open(idItem, accion, idParent, tipo);
+    modal.open(idItem, accion);
   }
 
   public close(id: string) {
