@@ -1,0 +1,19 @@
+.modal-header {
+    background: #eee;
+}
+
+.modal-body {
+    background: #ddd;
+}
+
+table{
+    margin:15px;
+}
+
+thead th,tbody td{
+    padding: 5px;
+}   
+
+tbody tr:nth-child(odd){
+    background-color: #bbb;
+}

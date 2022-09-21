@@ -90,7 +90,7 @@ export class PercepcionescapturaFormComponent implements OnInit, OnDestroy {
     this.catpercepcionesSvc.getCatalogo().subscribe(resp => {
       this.catpercepcionesCat = resp;
     });
-    this.catquincenaSvc.getCatalogo().subscribe(resp => {
+    this.catquincenaSvc.getCatalogoMayorActiva().subscribe(resp => {
       this.catquincenaCat = resp;
     });
   }

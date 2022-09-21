@@ -23,9 +23,6 @@
                                                 <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','editar',member.id)">
                                             <i class="fa fa-edit"></i>
                                         </button>
-                                                <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','eliminar',member.id)">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
                                             </div>
                                         </td>
                                     </div>
@@ -43,9 +40,9 @@
         </div>
     </main>
 </div>
-<app-percepcionesadeudos-form id="custom-modal-1" (redrawEvent)="reDraw($event)">
+<app-reducciones-form id="custom-modal-1" (redrawEvent)="reDraw($event)">
     <!--<input type="hidden" [(ngModel)]="idItem" />-->
-</app-percepcionesadeudos-form>
+</app-reducciones-form>
 
 <div bsModal #reporteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">

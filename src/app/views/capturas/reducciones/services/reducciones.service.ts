@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class PercepcionesadeudosService {
+export class ReduccionesService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -29,7 +29,7 @@ export class PercepcionesadeudosService {
       setTimeout(() => {
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/percepcionesadeudos/getAdmin',
+          this.API_URL + '/reducciones/getAdmin',
           { solocabeceras: 1, opcionesAdicionales: { raw: 0 } }, {}
         ).subscribe(resp => {
           if (resp.data.length > 0)
@@ -44,23 +44,23 @@ export class PercepcionesadeudosService {
 
 
   public getAdmin(dataTablesParameters): Observable<any> {
-    return this.http.post(this.API_URL + '/percepcionesadeudos/getAdmin',
+    return this.http.post(this.API_URL + '/reducciones/getAdmin',
       { dataTablesParameters }
       , httpOptions);
   }
 
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/percepcionesadeudos/getRecord',
+    return this.http.post(this.API_URL + '/reducciones/getRecord',
       { id }
       , httpOptions);
   }
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
-  public setRecord(dataPack, actionForm,record_id_catquincena_fin,fieldsQuincenas): Observable<any> {
+  public setRecord(dataPack, actionForm): Observable<any> {
 
-    return this.http.post(this.API_URL + '/percepcionesadeudos/setRecord',
-      { dataPack, actionForm,record_id_catquincena_fin,fieldsQuincenas }
+    return this.http.post(this.API_URL + '/reducciones/setRecord',
+      { dataPack, actionForm }
       , httpOptions);
   }
 

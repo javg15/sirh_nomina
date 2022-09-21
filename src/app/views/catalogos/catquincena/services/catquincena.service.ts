@@ -71,6 +71,13 @@ export class CatquincenaService {
       , httpOptions);
   }
 
+  public getCatalogoMayorActiva(): Observable<any> {
+    return this.http.post(this.API_URL + '/catquincena/getCatalogoMayorActiva',
+      {}
+      , httpOptions);
+  }
+  
+
   public getCatalogoSegunAnio(anio): Observable<any> {
     return this.http.post(this.API_URL + '/catquincena/getCatalogoSegunAnio',
       { anio }

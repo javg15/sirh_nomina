@@ -1,4 +1,4 @@
-<div bsModal #basicModalPercepcionesadeudos="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+<div bsModal #basicModalDeduccionesdevoluciones="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-full-height modal-right" role="document" style="background: rgb(140, 255, 0); top: 20px;">
         <div class="modal-content modal-form">
             <div class="modal-header">
@@ -42,10 +42,10 @@
                         </div>
                         <div class="form-group col-sm-3">
                             <div class="form-group">
-                                <label for="id_cattiposadeudos">Tipo de adeudo</label>
-                                <select [(ngModel)]="record.id_cattiposadeudos" class="form-control" name="Tipo de adeudo" (change)="onChangeTipoAdeudo($event.target.value)" [disabled]="actionForm=='nuevo'?false:true">
+                                <label for="id_cattiposdevoluciones">Tipo de devolución</label>
+                                <select [(ngModel)]="record.id_cattiposdevoluciones" class="form-control" name="Tipo de devolución" (change)="onChangeTipoDevolucion($event.target.value)" [disabled]="actionForm=='nuevo'?false:true">
                                     <option value="">--</option>
-                                    <option *ngFor="let col of cattiposadeudosCat" [value]="col.id">{{ col.descripcion }}</option>
+                                    <option *ngFor="let col of cattiposdevolucionesCat" [value]="col.id">{{ col.descripcion }}</option>
                                   </select>
 
                             </div>
@@ -61,7 +61,7 @@
                         </div>
                         <div class="form-group col-sm-3">
                             <div class="form-group">
-                                <label for="Quincena de inicio">Quincena de inicio</label>
+                                <label for="id_catquincena">Quincena de inicio</label>
                                 <ng-select2 [(ngModel)]="record.id_catquincena" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de inicio" [disabled]="true">
                                 </ng-select2>
                             </div>
@@ -69,9 +69,18 @@
 
                         <div class="form-group col-sm-3">
                             <div class="form-group">
-                                <label for="id_catquincena_fin">Quincena de término</label>
+                                <label for="record_id_catquincena_fin">Quincena de término</label>
                                 <ng-select2 [(ngModel)]="record_id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de término" [disabled]="true">
                                 </ng-select2>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="record.aplicardescmax">Aplicar desc. máx.</label>
+                                <select class="form-control" [(ngModel)]="record.aplicardescmax" name="Aplicar desc. máx." [disabled]="actionForm=='nuevo'?false:true">
+                                    <option value="0">No</option>
+                                    <option value="1">Sí</option>
+                                  </select>
                             </div>
                         </div>
                     </div>

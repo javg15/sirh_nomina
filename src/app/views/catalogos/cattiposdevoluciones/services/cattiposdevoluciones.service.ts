@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class PercepcionesadeudosService {
+export class CattiposdevolucionesService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -29,38 +29,57 @@ export class PercepcionesadeudosService {
       setTimeout(() => {
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/percepcionesadeudos/getAdmin',
+          this.API_URL + '/cattiposdevoluciones/getAdmin',
           { solocabeceras: 1, opcionesAdicionales: { raw: 0 } }, {}
         ).subscribe(resp => {
-          if (resp.data.length > 0)
-            o.next(resp.data[0]);
-          else {
-            o.next('[{"data":"id","name":"a_id","title":"ID"},{"data":"z_e","name":"cze_descripcion","title":"Z E"},{"data":"pl_auto","name":"a_totalplazaaut","title":"Pl Auto"},{"data":"horas_auto","name":"a_totalhorasaut","title":"Horas Auto"},{"data":"quin_inicio","name":"Quin_Inicio","title":"Quin Inicio"},{"data":"quin_fin","name":"Quin_Fin","title":"Quin Fin"},{"data":"importe","name":"a_importe","title":"Importe"},{"data":"acciones","name":"Accionesbotones>","title":"Acciones","render":"botones"}]')
-          }
+          o.next(resp.data[0]);
         })
       }, 200)
     })
   }
-
-
-  public getAdmin(dataTablesParameters): Observable<any> {
-    return this.http.post(this.API_URL + '/percepcionesadeudos/getAdmin',
-      { dataTablesParameters }
-      , httpOptions);
-  }
-
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/percepcionesadeudos/getRecord',
+    return this.http.post(this.API_URL + '/cattiposdevoluciones/getRecord',
       { id }
       , httpOptions);
   }
+  public getQuincenaActiva(): Observable<any> {
+    return this.http.post(this.API_URL + '/cattiposdevoluciones/getQuincenaActiva',
+      {  }
+      , httpOptions);
+  }
+
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
-  public setRecord(dataPack, actionForm,record_id_catquincena_fin,fieldsQuincenas): Observable<any> {
+  public setRecord(dataPack, actionForm): Observable<any> {
 
-    return this.http.post(this.API_URL + '/percepcionesadeudos/setRecord',
-      { dataPack, actionForm,record_id_catquincena_fin,fieldsQuincenas }
+    return this.http.post(this.API_URL + '/cattiposdevoluciones/setRecord',
+      { dataPack, actionForm }
+      , httpOptions);
+  }
+
+  public setUpdateFromWebService(id_semestre): Observable<any> {
+
+    return this.http.post(this.API_URL + '/cattiposdevoluciones/setUpdateFromWebService',
+      { id_semestre }
+      , httpOptions);
+  }
+
+  public getCatalogo(): Observable<any> {
+    return this.http.post(this.API_URL + '/cattiposdevoluciones/getCatalogo',
+      {}
+      , httpOptions);
+  }
+
+  public getCatalogoSegunAnio(anio): Observable<any> {
+    return this.http.post(this.API_URL + '/cattiposdevoluciones/getCatalogoSegunAnio',
+      { anio }
+      , httpOptions);
+  }
+
+  public getCatalogoSegunSemestre(id_semestre): Observable<any> {
+    return this.http.post(this.API_URL + '/cattiposdevoluciones/getCatalogoSegunSemestre',
+      { id_semestre }
       , httpOptions);
   }
 

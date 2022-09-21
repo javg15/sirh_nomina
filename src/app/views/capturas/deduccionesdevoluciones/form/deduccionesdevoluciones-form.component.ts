@@ -4,12 +4,11 @@ import { TokenStorageService } from '../../../../_services/token-storage.service
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Percepcionesadeudos, Personal, Catquincena, Cattiposadeudos} from '../../../../_models';
-import { PercepcionesadeudosService } from '../services/percepcionesadeudos.service';
+import { Deduccionesdevoluciones, Personal, Catquincena, Cattiposdevoluciones} from '../../../../_models';
+import { DeduccionesdevolucionesService } from '../services/deduccionesdevoluciones.service';
 import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
-import { CatpercepcionesService } from '../../../catalogos/catpercepciones/services/catpercepciones.service';
-import { CattiposadeudosService } from '../../../catalogos/cattiposadeudos/services/cattiposadeudos.service';
+import { CattiposdevolucionesService } from '../../../catalogos/cattiposdevoluciones/services/cattiposdevoluciones.service';
 import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
@@ -22,19 +21,19 @@ declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-percepcionesadeudos-form',
-  templateUrl: './percepcionesadeudos-form.component.html',
-  styleUrls: ['./percepcionesadeudos-form.component.css']
+  selector: 'app-deduccionesdevoluciones-form',
+  templateUrl: './deduccionesdevoluciones-form.component.html',
+  styleUrls: ['./deduccionesdevoluciones-form.component.css']
 })
 
-export class PercepcionesadeudosFormComponent implements OnInit, OnDestroy {
+export class DeduccionesdevolucionesFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
   
 
-  nombreModulo = 'Percepcionesadeudos';
+  nombreModulo = 'Deduccionesdevoluciones';
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
@@ -43,11 +42,11 @@ export class PercepcionesadeudosFormComponent implements OnInit, OnDestroy {
   private elementModal: any;
 
   @ViewChild('id_personal') id_personal:AutocompleteComponent;
-  @ViewChild('basicModalPercepcionesadeudos') basicModalPercepcionesadeudos: ModalDirective;
+  @ViewChild('basicModalDeduccionesdevoluciones') basicModalDeduccionesdevoluciones: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
-  record:Percepcionesadeudos;
+  record:Deduccionesdevoluciones;
   recordpersonal: Personal = {
       id: 0,curp: '', rfc: '',  homoclave: '',
       state: '', nombre: '', apellidopaterno: '', apellidomaterno:'',id_catestadocivil:0,
@@ -63,7 +62,7 @@ export class PercepcionesadeudosFormComponent implements OnInit, OnDestroy {
  
   catquincenaCat: Catquincena[];
   catpersonalCat:Personal[];
-  cattiposadeudosCat:Cattiposadeudos[];
+  cattiposdevolucionesCat:Cattiposdevoluciones[];
   catquincenaactiva:Catquincena;
   quincenasCat:any[]=[];
   
@@ -85,10 +84,10 @@ export class PercepcionesadeudosFormComponent implements OnInit, OnDestroy {
   constructor(
     private tokenStorage: TokenStorageService,
     private isLoadingService: IsLoadingService,
-    private percepcionesadeudosService: PercepcionesadeudosService,
+    private deduccionesdevolucionesService: DeduccionesdevolucionesService,
     private personalSvc: PersonalService,
     private catquincenaSvc: CatquincenaService,
-    private cattiposadeudosSvc:CattiposadeudosService,
+    private cattiposdevolucionesSvc:CattiposdevolucionesService,
     private el: ElementRef,
     private route: ActivatedRoute
   ) {
@@ -100,15 +99,15 @@ export class PercepcionesadeudosFormComponent implements OnInit, OnDestroy {
     this.catquincenaSvc.getQuincenaActiva().subscribe(resp => {
       this.catquincenaactiva = resp;
     });
-    this.cattiposadeudosSvc.getCatalogo().subscribe(resp => {
-      this.cattiposadeudosCat = resp;
+    this.cattiposdevolucionesSvc.getCatalogo().subscribe(resp => {
+      this.cattiposdevolucionesCat = resp;
     });
   }
 
-  newRecord(): Percepcionesadeudos {
+  newRecord(): Deduccionesdevoluciones {
     return {
-      id: 0, id_personal: 0, id_cattiposadeudos: 0, id_catquincena_aplicacion: 0, dias: 0,
-    id_catquincena: 0, 
+      id: 0, id_personal: 0, id_cattiposdevoluciones: 0, id_catquincena_aplicacion: 0, dias: 0,
+    id_catquincena: 0, aplicardescmax: 0, 
       state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -131,7 +130,7 @@ export class PercepcionesadeudosFormComponent implements OnInit, OnDestroy {
       return;
     }
     // add self (this modal instance) to the modal service so it's accessible from controllers
-    modal.percepcionesadeudosService.add(modal);
+    modal.deduccionesdevolucionesService.add(modal);
 
     //loading
     this.userFormIsPending = this.isLoadingService.isLoading$({ key: 'loading' });
@@ -170,7 +169,7 @@ refreshFields() {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-    this.percepcionesadeudosService.remove(this.id); //idModal
+    this.deduccionesdevolucionesService.remove(this.id); //idModal
     this.elementModal.remove();
   }
 
@@ -189,7 +188,7 @@ refreshFields() {
         this.refreshFields();
 
         await this.isLoadingService.add(
-          this.percepcionesadeudosService.setRecord(this.record, this.actionForm,this.record_id_catquincena_fin, this.fieldsQuincenas).subscribe(async resp => {
+          this.deduccionesdevolucionesService.setRecord(this.record, this.actionForm,this.record_id_catquincena_fin,this.fieldsQuincenas).subscribe(async resp => {
             if (resp.hasOwnProperty('error')) {
               this.validSummary.generateErrorMessagesFromServer(resp.message);
             }
@@ -210,7 +209,7 @@ refreshFields() {
     
     this.actionForm = accion;
     this.botonAccion = actionsButtonSave[accion];
-    this.tituloForm =  "Captura de adeudos - " 
+    this.tituloForm =  "Captura de devoluciones - " 
         + titulosModal[accion] 
         + " registro";
 
@@ -225,11 +224,10 @@ refreshFields() {
   
     } else {
       
-      this.percepcionesadeudosService.getRecord(idItem).subscribe(async resp => {
+      this.deduccionesdevolucionesService.getRecord(idItem).subscribe(async resp => {
         this.record = resp;
         this.record_id_catquincena_fin=this.record.id_catquincena;
-
-        if(this.cattiposadeudosCat.find(a=>a.id==this.record.id_cattiposadeudos).condias==1)
+        if(this.cattiposdevolucionesCat.find(a=>a.id==this.record.id_cattiposdevoluciones).condias==1)
           this.editarDias=true;
 
         //agregar controles
@@ -263,12 +261,12 @@ refreshFields() {
       });
      }
 
-    this.basicModalPercepcionesadeudos.show();
+    this.basicModalDeduccionesdevoluciones.show();
   }
 
   // close modal
   close(): void {
-    this.basicModalPercepcionesadeudos.hide();
+    this.basicModalDeduccionesdevoluciones.hide();
     if (this.actionForm.toUpperCase() != "VER") {
       this.redrawEvent.emit(null);
     }
@@ -285,8 +283,8 @@ refreshFields() {
     this.Recalcular()
   }
 
-  onChangeTipoAdeudo(value){
-    this.editarDias=(this.cattiposadeudosCat.find(item=>item.id==value).condias==1);
+  onChangeTipoDevolucion(value){
+    this.editarDias=(this.cattiposdevolucionesCat.find(item=>item.id==value).condias==1);
     this.Recalcular();
   }
 
@@ -305,6 +303,7 @@ refreshFields() {
     
     this.quincenasCat=[];
 
+    
     //agregar controles
     this.catquincenaCat.forEach ((item) => {
       if(item.id>=quincena_ini && item.id<=quincena_fin){

@@ -13,6 +13,14 @@ import { PercepcionesadeudosAdminComponent } from './percepcionesadeudos/admin/p
 import { PercepcionesadeudosIniService } from './percepcionesadeudos/services/percepcionesadeudos.ini.service';
 import { PercepcionesadeudosFormComponent } from './percepcionesadeudos/form/percepcionesadeudos-form.component';
 
+import { DeduccionesdevolucionesAdminComponent } from './deduccionesdevoluciones/admin/deduccionesdevoluciones-admin.component';
+import { DeduccionesdevolucionesIniService } from './deduccionesdevoluciones/services/deduccionesdevoluciones.ini.service';
+import { DeduccionesdevolucionesFormComponent } from './deduccionesdevoluciones/form/deduccionesdevoluciones-form.component';
+
+import { ReduccionesAdminComponent } from './reducciones/admin/reducciones-admin.component';
+import { ReduccionesIniService } from './reducciones/services/reducciones.ini.service';
+import { ReduccionesFormComponent } from './reducciones/form/reducciones-form.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -85,6 +93,52 @@ const routes: Routes = [
         component: PercepcionesadeudosFormComponent,
         data: {
           title: 'Adeudos'
+        },
+        
+      },
+
+      {
+        path: 'capturas/devoluciones',
+        redirectTo: 'devoluciones/admin'
+      },
+      {
+        path: 'devoluciones/admin',
+        component: DeduccionesdevolucionesAdminComponent,
+        data: {
+          title: 'Devoluciones'
+        },
+        resolve: {
+          userdata: DeduccionesdevolucionesIniService,
+        }
+      },
+      {
+        path: 'form',
+        component: DeduccionesdevolucionesFormComponent,
+        data: {
+          title: 'Devoluciones'
+        },
+        
+      },
+      
+      {
+        path: 'capturas/reducciones',
+        redirectTo: 'reducciones/admin'
+      },
+      {
+        path: 'reducciones/admin',
+        component: ReduccionesAdminComponent,
+        data: {
+          title: 'Reducciones'
+        },
+        resolve: {
+          userdata: ReduccionesIniService,
+        }
+      },
+      {
+        path: 'form',
+        component: ReduccionesFormComponent,
+        data: {
+          title: 'Reducciones'
         },
         
       },

@@ -4,13 +4,11 @@ export default interface Percepcionesadeudos {
 
   id_personal: number | null;
 
-  id_cattiposadeudos: number | null;
+  id_catquincena_ini: number | null;
 
-  id_catquincena_aplicacion: number | null;
+  id_catquincena_fin: number | null;
 
-  id_catquincena: number | null;
-
-  dias: number | null;
+  porcentaje: number | null;
 
   state: string | null;
 

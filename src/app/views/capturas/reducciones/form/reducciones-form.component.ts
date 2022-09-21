@@ -3,11 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { TokenStorageService } from '../../../../_services/token-storage.service';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Deduccionescaptura, Personal, Catquincena, Catdeducciones} from '../../../../_models';
-import { DeduccionescapturaService } from '../services/deduccionescaptura.service';
+import { Reducciones, Personal, Catquincena, Catpercepciones} from '../../../../_models';
+import { ReduccionesService } from '../services/reducciones.service';
 import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
-import { CatdeduccionesService } from '../../../catalogos/catdeducciones/services/catdeducciones.service';
 import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
@@ -20,18 +19,18 @@ declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-deduccionescaptura-form',
-  templateUrl: './deduccionescaptura-form.component.html',
-  styleUrls: ['./deduccionescaptura-form.component.css']
+  selector: 'app-reducciones-form',
+  templateUrl: './reducciones-form.component.html',
+  styleUrls: ['./reducciones-form.component.css']
 })
 
-export class DeduccionescapturaFormComponent implements OnInit, OnDestroy {
+export class ReduccionesFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
 
-  nombreModulo = 'Deduccionescaptura';
+  nombreModulo = 'Reducciones';
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
@@ -40,13 +39,13 @@ export class DeduccionescapturaFormComponent implements OnInit, OnDestroy {
   private elementModal: any;
 
   @ViewChild('id_personal') id_personal:AutocompleteComponent;
-  @ViewChild('basicModalDeduccionescaptura') basicModalDeduccionescaptura: ModalDirective;
+  @ViewChild('basicModalReducciones') basicModalReducciones: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
-  record:Deduccionescaptura={
-    id: 0, id_personal: 0, id_plantillasdocsnombramiento: 0, id_plazas: 0, id_catdeducciones:0, importetotal: 0,
-    id_catquincena_ini: 0, id_catquincena_fin: 0, cantidadquincenas: 0,
+  record:Reducciones={
+    id: 0, id_personal: 0, porcentaje: 0,
+    id_catquincena_ini: 0, id_catquincena_fin: 0,
       state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0
   };
   recordpersonal: Personal = {
@@ -62,43 +61,37 @@ export class DeduccionescapturaFormComponent implements OnInit, OnDestroy {
   };
  
   catquincenaCat: Catquincena[];
-  catdeduccionesCat: Catdeducciones[];
   catpersonalCat:Personal[];
   
   record_id_personal:number;
-  record_id_quincena:number;
   record_quincena_activa:Catquincena;
  
   keywordSearch = 'full_name';
   isLoadingSearch: boolean;
   record_personal:any;
-  editarQuincenaFinal:boolean=true;
 
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(
     private tokenStorage: TokenStorageService,
     private isLoadingService: IsLoadingService,
-    private deduccionescapturaService: DeduccionescapturaService,
+    private reduccionesService: ReduccionesService,
     private personalSvc: PersonalService,
     private catquincenaSvc: CatquincenaService,
-    private catdeduccionesSvc:CatdeduccionesService,
     private el: ElementRef,
     private route: ActivatedRoute
   ) {
     this.elementModal = el.nativeElement;
-    this.catdeduccionesSvc.getCatalogo().subscribe(resp => {
-      this.catdeduccionesCat = resp;
-    });
+    
     this.catquincenaSvc.getCatalogoMayorActiva().subscribe(resp => {
       this.catquincenaCat = resp;
     });
   }
 
-  newRecord(): Deduccionescaptura {
+  newRecord(): Reducciones {
     return {
-      id: 0, id_personal: 0, id_plantillasdocsnombramiento: 0, id_plazas: 0, id_catdeducciones:0, importetotal: 0,
-    id_catquincena_ini: 0, id_catquincena_fin: 0, cantidadquincenas: 0,
+      id: 0, id_personal: 0, porcentaje: 0,
+    id_catquincena_ini: 0, id_catquincena_fin: 0,
       state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -114,7 +107,7 @@ export class DeduccionescapturaFormComponent implements OnInit, OnDestroy {
       return;
     }
     // add self (this modal instance) to the modal service so it's accessible from controllers
-    modal.deduccionescapturaService.add(modal);
+    modal.reduccionesService.add(modal);
 
     //loading
     this.userFormIsPending = this.isLoadingService.isLoading$({ key: 'loading' });
@@ -125,7 +118,7 @@ export class DeduccionescapturaFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-    this.deduccionescapturaService.remove(this.id); //idModal
+    this.reduccionesService.remove(this.id); //idModal
     this.elementModal.remove();
   }
 
@@ -137,7 +130,7 @@ export class DeduccionescapturaFormComponent implements OnInit, OnDestroy {
       this.validSummary.resetErrorMessages(admin);
 
       await this.isLoadingService.add(
-        this.deduccionescapturaService.setRecord(this.record, this.actionForm).subscribe(async resp => {
+        this.reduccionesService.setRecord(this.record, this.actionForm).subscribe(async resp => {
           if (resp.hasOwnProperty('error')) {
             this.validSummary.generateErrorMessagesFromServer(resp.message);
           }
@@ -158,7 +151,7 @@ export class DeduccionescapturaFormComponent implements OnInit, OnDestroy {
     
     this.actionForm = accion;
     this.botonAccion = actionsButtonSave[accion];
-    this.tituloForm =  "Captura de deducciones - " 
+    this.tituloForm =  "Captura de reducciones - " 
         + titulosModal[accion] 
         + " registro";
 
@@ -170,9 +163,8 @@ export class DeduccionescapturaFormComponent implements OnInit, OnDestroy {
       this.record = this.newRecord();
     } else {
       
-      this.deduccionescapturaService.getRecord(idItem).subscribe(async resp => {
+      this.reduccionesService.getRecord(idItem).subscribe(async resp => {
         this.record = resp;
-        if(this.record.cantidadquincenas>0) this.editarQuincenaFinal=false;
 
         this.personalSvc.getRecord(this.record.id_personal).subscribe(resp => {
           if(resp!=null){
@@ -192,12 +184,12 @@ export class DeduccionescapturaFormComponent implements OnInit, OnDestroy {
     }
 
 
-    this.basicModalDeduccionescaptura.show();
+    this.basicModalReducciones.show();
   }
 
   // close modal
   close(): void {
-    this.basicModalDeduccionescaptura.hide();
+    this.basicModalReducciones.hide();
     if (this.actionForm.toUpperCase() != "VER") {
       this.redrawEvent.emit(null);
     }
@@ -206,16 +198,7 @@ export class DeduccionescapturaFormComponent implements OnInit, OnDestroy {
   // log contenido de objeto en adminulario
   get diagnosticValidate() { return JSON.stringify(this.record); }
 
-  onChangeCantidadQuincenas(value){
-    if(parseInt(value)>0){
-      this.editarQuincenaFinal=false;
-      this.record.id_catquincena_fin=this.record.id_catquincena_ini + ((value-1)*3)
-    }
-    else{
-      this.editarQuincenaFinal=true;
-      this.record.id_catquincena_fin=this.record.id_catquincena_ini;
-    }
-  }
+  
 
   /*********************
    autocomplete id_personal

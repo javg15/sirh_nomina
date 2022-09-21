@@ -6,8 +6,8 @@ import { DataTablesResponse } from '../../../../classes/data-tables-response';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
-import { PercepcionesadeudosService } from '../services/percepcionesadeudos.service';
-import { Percepcionesadeudos,  Personal,Catquincena } from '../../../../_models';
+import { ReduccionesService } from '../services/reducciones.service';
+import { Reducciones,  Personal,Catquincena } from '../../../../_models';
 import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
@@ -19,13 +19,13 @@ declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-percepcionesadeudos-admin',
-  templateUrl: './percepcionesadeudos-admin.component.html',
-  styleUrls: ['./percepcionesadeudos-admin.component.css']
+  selector: 'app-reducciones-admin',
+  templateUrl: './reducciones-admin.component.html',
+  styleUrls: ['./reducciones-admin.component.css']
 })
 
 
-export class PercepcionesadeudosAdminComponent implements OnInit {
+export class ReduccionesAdminComponent implements OnInit {
   @Input() dtOptions: DataTables.Settings = {};
   usuario:any=this.tokenStorage.getUser();
   /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
@@ -49,11 +49,11 @@ export class PercepcionesadeudosAdminComponent implements OnInit {
     raw:0
   };
 
-  nombreModulo = 'Percepcionesadeudos';
+  nombreModulo = 'Reducciones';
 
-  record:Percepcionesadeudos={
-    id: 0, id_personal: 0, id_cattiposadeudos: 0, id_catquincena_aplicacion: 0,
-    id_catquincena: 0, dias: 0,
+  record:Reducciones={
+    id: 0, id_personal: 0, porcentaje: 0,
+    id_catquincena_ini: 0, id_catquincena_fin: 0,
       state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0
   };
   catquincenaCat:Catquincena[];
@@ -65,13 +65,13 @@ export class PercepcionesadeudosAdminComponent implements OnInit {
   
   tipoReporte:number;
 
-  /* En el constructor creamos el objeto percepcionesadeudosService,
+  /* En el constructor creamos el objeto reduccionesService,
   de la clase HttpConnectService, que contiene el servicio mencionado,
   y estará disponible en toda la clase de este componente.
   El objeto es private, porque no se usará fuera de este componente. */
   constructor(
     private tokenStorage: TokenStorageService,
-    private percepcionesadeudosService: PercepcionesadeudosService, private route: ActivatedRoute,
+    private reduccionesService: ReduccionesService, private route: ActivatedRoute,
     private catquincenaSvc: CatquincenaService,
     private personalSvc: PersonalService,
     private _sanitizer: DomSanitizer
@@ -117,10 +117,10 @@ export class PercepcionesadeudosAdminComponent implements OnInit {
         this.dtOptionsAdicional.raw++;
         dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
-          this.percepcionesadeudosService.http
+          this.reduccionesService.http
             .post<DataTablesResponse>(
               // this.API_URL + '/a6b_apis/read_records_dt.php',
-              this.API_URL + '/percepcionesadeudos/getAdmin',
+              this.API_URL + '/reducciones/getAdmin',
               dataTablesParameters, {}
             ).subscribe(resp => {
 
@@ -148,11 +148,11 @@ export class PercepcionesadeudosAdminComponent implements OnInit {
 
   }
   openModal(id: string, accion: string, idItem: number) {
-    this.percepcionesadeudosService.open(id, accion, idItem);
+    this.reduccionesService.open(id, accion, idItem);
   }
 
   closeModal(id: string) {
-    this.percepcionesadeudosService.close(id);
+    this.reduccionesService.close(id);
   }
 
 
