@@ -20,6 +20,8 @@ export default interface Catpercepciones {
 
   datoextra: string | null;
 
+  id_catpercepciones_adeudo: number | null;
+
   state: string | null;
 
   created_at: Date | null;

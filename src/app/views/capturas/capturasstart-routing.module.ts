@@ -21,6 +21,11 @@ import { ReduccionesAdminComponent } from './reducciones/admin/reducciones-admin
 import { ReduccionesIniService } from './reducciones/services/reducciones.ini.service';
 import { ReduccionesFormComponent } from './reducciones/form/reducciones-form.component';
 
+import { RecibosAdminComponent } from './recibos/admin/recibos-admin.component';
+import { RecibosIniService } from './recibos/services/recibos.ini.service';
+import { RecibosFormComponent } from './recibos/form/recibos-form.component';
+
+
 const routes: Routes = [
   {
     path: '',
@@ -139,6 +144,29 @@ const routes: Routes = [
         component: ReduccionesFormComponent,
         data: {
           title: 'Reducciones'
+        },
+        
+      },
+
+      {
+        path: 'capturas/recibos',
+        redirectTo: 'recibos/admin'
+      },
+      {
+        path: 'recibos/admin',
+        component: RecibosAdminComponent,
+        data: {
+          title: 'Recibos'
+        },
+        resolve: {
+          userdata: RecibosIniService,
+        }
+      },
+      {
+        path: 'form',
+        component: RecibosFormComponent,
+        data: {
+          title: 'Recibos'
         },
         
       },

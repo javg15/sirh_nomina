@@ -1,26 +1,8 @@
 // Automatically generated. Don't change this file manually.
-export type CatdeduccionesId = number & { __flavor?: 'catdeducciones' };
-
-export default interface Catdeducciones {
+export default interface Catrecibosestatus {
   id: number | null;
 
   clave: string | null;
-
-  nombre: string | null;
-
-  gravar: string | null;
-
-  federalestatal: string | null;
-
-  id_partida: number | null;
-
-  ambito: string | null;
-
-  funcioncalculo: string | null;
-
-  datoextra: string | null;
-
-  id_catpercepciones_afectada: number | null;
 
   state: string | null;
 
@@ -31,7 +13,7 @@ export default interface Catdeducciones {
   id_usuarios_r: number | null;
 }
 
-/*export interface CatdeduccionesInitializer {
+/*export interface CatpercepcionesInitializer {
   id?: number;
 
   id_catcentrostrabajo?: number;
@@ -54,9 +36,9 @@ export default interface Catdeducciones {
 
   id_catregion?: number;
 
-  id_catdeduccionesasociado?: number;
+  id_catpercepcionesasociado?: number;
 
-  tipodeduccion?: string;
+  tipopercepcion?: string;
 
   clavectse?: string;
 

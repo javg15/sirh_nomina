@@ -16,6 +16,8 @@ import { DeduccionesdevolucionesAdminComponent } from './deduccionesdevoluciones
 import { DeduccionesdevolucionesFormComponent } from './deduccionesdevoluciones/form/deduccionesdevoluciones-form.component';
 import { ReduccionesAdminComponent } from './reducciones/admin/reducciones-admin.component';
 import { ReduccionesFormComponent } from './reducciones/form/reducciones-form.component';
+import { RecibosAdminComponent } from './recibos/admin/recibos-admin.component';
+import { RecibosFormComponent } from './recibos/form/recibos-form.component';
 
 import { DataTablesModule } from 'angular-datatables';
 import { NgSelect2Module } from 'ng-select2';
@@ -63,6 +65,8 @@ import { DatePipe } from '@angular/common'
     DeduccionesdevolucionesFormComponent,
     ReduccionesAdminComponent,
     ReduccionesFormComponent,
+    RecibosAdminComponent,
+    RecibosFormComponent,
     ReplacePipe
   ],
   providers: [
@@ -80,6 +84,8 @@ import { DatePipe } from '@angular/common'
     DeduccionesdevolucionesFormComponent,
     ReduccionesAdminComponent,
     ReduccionesFormComponent,
+    RecibosAdminComponent,
+    RecibosFormComponent,
   ]
 })
 export class CapturasStartModule { }

@@ -43,7 +43,7 @@ export class CatdeduccionesFormComponent implements OnInit, OnDestroy {
   newRecord(): Catdeducciones {
     return {
       id: 0,  clave: '',nombre: '',gravar: '', federalestatal: '',
-      id_partida: 0, funcioncalculo: '', datoextra:'', ambito: '', id_catpercepcion_afectada:0,
+      id_partida: 0, funcioncalculo: '', datoextra:'', ambito: '', id_catpercepciones_afectada:0,
       state: '',  created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,
     };
   }

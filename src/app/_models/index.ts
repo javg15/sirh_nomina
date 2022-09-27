@@ -5,11 +5,15 @@ import Catplanteles, { CatplantelesInitializer } from './catplanteles';
 import Catpercepciones, {  } from './catpercepciones';
 import Catdeducciones, {  } from './catdeducciones';
 import Catquincena, {  } from './catquincena';
+import Catfondospresupuestales, {  } from './catfondospresupuestales';
+import Catrecibosestatus, {  } from './catrecibosestatus';
+import Catrecibostipos, {  } from './catrecibostipos';
 import Catzonaeconomica, {  } from './catzonaeconomica';
 import Percepcionescaptura, {  } from './percepcionescaptura';
 import Deduccionescaptura, {  } from './deduccionescaptura';
 import Percepcionesadeudos, {  } from './percepcionesadeudos';
 import Reducciones, {  } from './reducciones';
+import Recibos, {  } from './recibos';
 import Deduccionesdevoluciones, {  } from './deduccionesdevoluciones';
 import Categorias, {  } from './categorias';
 import Categoriasasignacion, {  } from './categoriasasignacion';
@@ -31,10 +35,14 @@ type Model =
   | Cattiposadeudos
   | Cattiposdevoluciones
   | Catquincena
+  | Catfondospresupuestales
+  | Catrecibosestatus
+  | Catrecibostipos
   | Catzonaeconomica
   | Percepcionescaptura
   | Deduccionescaptura
   | Reducciones
+  | Recibos
   | Percepcionesadeudos
   | Deduccionesdevoluciones
   | Categorias
@@ -49,6 +57,9 @@ interface ModelTypeMap {
   'archivos': Archivos;
   'catzonaeconomica':Catzonaeconomica;
   'catquincena':Catquincena;
+  'catfondospresupuestales':Catfondospresupuestales;
+  'catrecibosestatus':Catrecibosestatus;
+  'catrecibostipos':Catrecibostipos;
   'catplanteles':Catplanteles;
   'catpercepciones':Catpercepciones;
   'catdeducciones':Catdeducciones;
@@ -61,6 +72,7 @@ interface ModelTypeMap {
   'percepcionesadeudos':Percepcionesadeudos;
   'deduccionesdevoluciones':Deduccionesdevoluciones;
   'reducciones':Reducciones;
+  'recibos':Recibos;
   'log': Log;
   'modulos': Modulos;
   'personal': Personal;
@@ -108,6 +120,9 @@ interface InitializerTypeMap {
 export {
   Archivos, ArchivosInitializer,
   Catquincena,
+  Catfondospresupuestales,
+  Catrecibosestatus,
+  Catrecibostipos,
   Catzonaeconomica,
   Catpercepciones,
   Catdeducciones,
@@ -119,6 +134,7 @@ export {
   Deduccionescaptura,
   Percepcionesadeudos,
   Reducciones,
+  Recibos,
   Deduccionesdevoluciones,
   Log, LogInitializer, LogId,
   Modulos, ModulosInitializer, ModulosId,
