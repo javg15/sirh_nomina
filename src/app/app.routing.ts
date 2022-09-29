@@ -85,6 +85,10 @@ const routes: Routes = [
         loadChildren: () => import('./views/capturas/capturasstart.module').then(m => m.CapturasStartModule)
       },
       {
+        path: 'calculos',
+        loadChildren: () => import('./views/calculos/calculosstart.module').then(m => m.CalculosStartModule)
+      },
+      {
         path: 'autenticacion',
         loadChildren: () => import('./views/autenticacion/autenticacion.module').then(m => m.AutenticacionModule)
       },

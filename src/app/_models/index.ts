@@ -14,6 +14,8 @@ import Deduccionescaptura, {  } from './deduccionescaptura';
 import Percepcionesadeudos, {  } from './percepcionesadeudos';
 import Reducciones, {  } from './reducciones';
 import Recibos, {  } from './recibos';
+import Retroactivos, {  } from './retroactivos';
+import Compensaciones, {  } from './compensaciones';
 import Deduccionesdevoluciones, {  } from './deduccionesdevoluciones';
 import Categorias, {  } from './categorias';
 import Categoriasasignacion, {  } from './categoriasasignacion';
@@ -43,6 +45,8 @@ type Model =
   | Deduccionescaptura
   | Reducciones
   | Recibos
+  | Retroactivos
+  | Compensaciones
   | Percepcionesadeudos
   | Deduccionesdevoluciones
   | Categorias
@@ -73,6 +77,8 @@ interface ModelTypeMap {
   'deduccionesdevoluciones':Deduccionesdevoluciones;
   'reducciones':Reducciones;
   'recibos':Recibos;
+  'retroactivos': Retroactivos;
+  'compensaciones':Compensaciones;
   'log': Log;
   'modulos': Modulos;
   'personal': Personal;
@@ -135,6 +141,8 @@ export {
   Percepcionesadeudos,
   Reducciones,
   Recibos,
+  Retroactivos,
+  Compensaciones,
   Deduccionesdevoluciones,
   Log, LogInitializer, LogId,
   Modulos, ModulosInitializer, ModulosId,

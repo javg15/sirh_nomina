@@ -1,5 +1,5 @@
 // Automatically generated. Don't change this file manually.
-export default interface Percepcionesadeudos {
+export default interface Recibos {
   id: number | null;
 
   id_personal: number | null;

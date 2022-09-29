@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
 
-import { environment } from '../../../../../../src/environments/environment';
+import { environment } from '../../../../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class CatquincenaService {
+export class RetroactivosService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -29,69 +29,38 @@ export class CatquincenaService {
       setTimeout(() => {
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/catquincena/getAdmin',
+          this.API_URL + '/retroactivos/getAdmin',
           { solocabeceras: 1, opcionesAdicionales: { raw: 0 } }, {}
         ).subscribe(resp => {
-          o.next(resp.data[0]);
+          if (resp.data.length > 0)
+            o.next(resp.data[0]);
+          else {
+            o.next('[{"data":"id","name":"a_id","title":"ID"},{"data":"z_e","name":"cze_descripcion","title":"Z E"},{"data":"pl_auto","name":"a_totalplazaaut","title":"Pl Auto"},{"data":"horas_auto","name":"a_totalhorasaut","title":"Horas Auto"},{"data":"quin_inicio","name":"Quin_Inicio","title":"Quin Inicio"},{"data":"quin_fin","name":"Quin_Fin","title":"Quin Fin"},{"data":"importe","name":"a_importe","title":"Importe"},{"data":"acciones","name":"Accionesbotones>","title":"Acciones","render":"botones"}]')
+          }
         })
       }, 200)
     })
   }
-  /* El siguiente método lee los datos de un registro seleccionado para edición. */
-  public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/catquincena/getRecord',
-      { id }
-      , httpOptions);
-  }
-  public getQuincenaActiva(): Observable<any> {
-    return this.http.post(this.API_URL + '/catquincena/getQuincenaActiva',
-      {  }
+
+
+  public getAdmin(dataTablesParameters): Observable<any> {
+    return this.http.post(this.API_URL + '/retroactivos/getAdmin',
+      { dataTablesParameters }
       , httpOptions);
   }
 
+  /* El siguiente método lee los datos de un registro seleccionado para edición. */
+  public getRecord(id: any): Observable<any> {
+    return this.http.post(this.API_URL + '/retroactivos/getRecord',
+      { id }
+      , httpOptions);
+  }
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack, actionForm): Observable<any> {
 
-    return this.http.post(this.API_URL + '/catquincena/setRecord',
+    return this.http.post(this.API_URL + '/retroactivos/setRecord',
       { dataPack, actionForm }
-      , httpOptions);
-  }
-
-  public setUpdateFromWebService(id_semestre): Observable<any> {
-
-    return this.http.post(this.API_URL + '/catquincena/setUpdateFromWebService',
-      { id_semestre }
-      , httpOptions);
-  }
-
-  public getCatalogo(): Observable<any> {
-    return this.http.post(this.API_URL + '/catquincena/getCatalogo',
-      {}
-      , httpOptions);
-  }
-
-  public getCatalogoMayorActiva(): Observable<any> {
-    return this.http.post(this.API_URL + '/catquincena/getCatalogoMayorActiva',
-      {}
-      , httpOptions);
-  }
-  
-  public getCatalogoRetroactivo(): Observable<any> {
-    return this.http.post(this.API_URL + '/catquincena/getCatalogoRetroactivo',
-      {  }
-      , httpOptions);
-  }
-
-  public getCatalogoSegunAnio(anio): Observable<any> {
-    return this.http.post(this.API_URL + '/catquincena/getCatalogoSegunAnio',
-      { anio }
-      , httpOptions);
-  }
-
-  public getCatalogoSegunSemestre(id_semestre): Observable<any> {
-    return this.http.post(this.API_URL + '/catquincena/getCatalogoSegunSemestre',
-      { id_semestre }
       , httpOptions);
   }
 

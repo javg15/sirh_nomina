@@ -1,0 +1,254 @@
+<div bsModal #basicModalCompensaciones="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-full-height modal-right" role="document" style="background: rgb(140, 255, 0); top: 20px;">
+        <div class="modal-content modal-form">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
+
+                <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+                  <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #dataForm="ngForm" (ngSubmit)="submitAction(dataForm)">
+                    <input type="hidden" name="action" value="{{ actionForm }}">
+                    <div class="form-group">
+                        <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <div class="form-group">
+                                <label for="id_personal">Personal</label>
+                                <div class="ng-autocomplete">
+                                    <ng-autocomplete #id_personal [data]="catpersonalCat" (selected)='onSelectIdPersonal($event)' (inputChanged)='onChangeSearchIdPersonal($event)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" [searchKeyword]="keywordSearch" [minQueryLength]="3"
+                                        [debounceTime]="100" [isLoading]="isLoadingSearch" >
+                                    </ng-autocomplete>
+
+                                    <ng-template #itemTemplate let-item>
+                                        <a href="javascript:void(0)">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <span [innerHTML]="item.full_name"></span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </ng-template>
+
+                                    <ng-template #notFoundTemplate let-notFound>
+                                        <div [innerHTML]="notFound"></div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="record_clavecobro">Clave de cobro</label>
+                                <input type="text" name="Clave de cobro" [(ngModel)]="record_clavecobro" class="form-control" [disabled]="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="numero">Numero de recibo</label>
+                                <input type="text" name="Numero de recibo" [(ngModel)]="record.numero" class="form-control"  [disabled]="true"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catcompensacionestipos">Tipo de recibo</label>
+                                <select [(ngModel)]="record.id_catcompensacionestipos" class="form-control" name="Tipo de recibo">
+                                    <option value="">--</option>
+                                    <option *ngFor="let col of catcompensacionestiposCat" [value]="col.id">{{ col.descripcion }}</option>
+                                  </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="fecha">Fecha de elaboración</label>
+                                <input type="date" [(ngModel)]="record.fecha" class="form-control" name="Fecha de elaboración">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="fecharealpago">Fecha real de pago</label>
+                                <input type="date" [(ngModel)]="record.fecharealpago" class="form-control" name="Fecha real de pago">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catcompensacionesestatus">Estatus</label>
+                                <select [(ngModel)]="record.id_catcompensacionesestatus" class="form-control" name="Estatus" [disabled]="true">
+                                    <option value="">--</option>
+                                    <option *ngFor="let col of catcompensacionesestatusCat" [value]="col.id">{{ col.descripcion }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="observaciones">Comentarios</label>
+                                <textarea [(ngModel)]="record.observaciones" rows="2" cols="50" class="form-control" name="Observaciones">
+                                </textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catquincena_aplicacion">Quincena de aplicación</label>
+                                <ng-select2 [(ngModel)]="record.id_catquincena_aplicacion" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de aplicación" [disabled]="true">
+                                </ng-select2>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catfondopresupuestal">Fondo presupuestal</label>
+                                <select [(ngModel)]="record.id_catfondopresupuestal" class="form-control" name="Fondo presupuestal">
+                                    <option value="">--</option>
+                                    <option *ngFor="let col of catfondospresupuestalesCat" [value]="col.id">{{ col.descripcion }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="record.definirperiododiferente">Definir un periodo de adeudo diferente</label>
+                                <select class="form-control" [(ngModel)]="record.definirperiododiferente" name="Definir un periodo de adeudo diferente" >
+                                    <option value="0">No</option>
+                                    <option value="1">Sí</option>
+                                  </select>
+                            </div>
+                        </div>
+                        <div *ngIf="(record.definirperiododiferente==1?true:false)" class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catquincena_ini">Quincena de inicio</label>
+                                <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de inicio"  >
+                                </ng-select2>
+                            </div>
+                        </div>
+                        <div *ngIf="(record.definirperiododiferente==1?true:false)" class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catquincena_fin">Quincena de término</label>
+                                <ng-select2 [(ngModel)]="record.id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de termino"  >
+                                </ng-select2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="record.ignorarempparapasivos">¿Calcular pasivos de fin de año al empleado?</label>
+                                <select class="form-control" [(ngModel)]="record.ignorarempparapasivos" name="Definir un periodo de adeudo diferente" >
+                                    <option value="0">No</option>
+                                    <option value="1">Sí</option>
+                                  </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="record.ignorarreciboparadecanual">¿Ignorar recibo para declaración anual?</label>
+                                <select class="form-control" [(ngModel)]="record.ignorarreciboparadecanual" name="Definir un periodo de adeudo diferente" >
+                                    <option value="0">No</option>
+                                    <option value="1">Sí</option>
+                                  </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="record.compensacionesustitucion">¿Este recibo sustituye a uno anterior?</label>
+                                <select class="form-control" [(ngModel)]="record.compensacionesustitucion" name="¿Este recibo sustituye a uno anterior?" >
+                                    <option value="0">No</option>
+                                    <option value="1">Sí</option>
+                                  </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="record.recibotimbrado">¿Este recibo está timbrado?</label>
+                                <select class="form-control" [(ngModel)]="record.recibotimbrado" name="¿Este recibo está timbrado?" >
+                                    <option value="0">No</option>
+                                    <option value="1">Sí</option>
+                                  </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="record.pagatercero">¿Este recibo se paga a favor de un tercero?</label>
+                                <select class="form-control" [(ngModel)]="record.pagatercero" name="¿Este recibo se paga a favor de un tercero?" >
+                                    <option value="0">No</option>
+                                    <option value="1">Sí</option>
+                                  </select>
+                            </div>
+                        </div>
+                        <div *ngIf="record.pagatercero==1" class="form-group col-sm-6">
+                            <div class="form-group">
+                                <label for="id_personal_beneficiario">Personal beneficiario</label>
+                                <div class="ng-autocomplete">
+                                    <ng-autocomplete #id_personal_beneficiario [data]="catpersonalCat" (selected)='onSelectIdPersonalBeneficiario($event)' (inputChanged)='onChangeSearchIdPersonalBeneficiario($event)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" [searchKeyword]="keywordSearch" [minQueryLength]="3"
+                                        [debounceTime]="100" [isLoading]="isLoadingSearch" >
+                                    </ng-autocomplete>
+
+                                    <ng-template #itemTemplate let-item>
+                                        <a href="javascript:void(0)">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <span [innerHTML]="item.full_name"></span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </ng-template>
+
+                                    <ng-template #notFoundTemplate let-notFound>
+                                        <div [innerHTML]="notFound"></div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="record.aniopasivos">Pasivos ejercicios anteriores</label>
+                                <input type="text" name="Pasivos ejercicios anteriores" [(ngModel)]="record.aniopasivos" class="form-control"  />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        &nbsp;
+                    </div>
+                    <app-validation-summary [form]="dataForm"></app-validation-summary>
+                    <!-- [disabled]="!dataForm.form.valid" -->
+                    <button *ngIf="actionForm!=='ver'" type="submit" [disabled]='userFormIsPending | async' class="btn btn-primary">
+                      <div *ngIf="userFormIsPending | async; else elseBlock"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Procesando...</span></div>
+                      <ng-template #elseBlock>{{ botonAccion }}</ng-template>
+                    </button>
+                </form>
+            </div>
+            <!-- <h2>Diagnostic Info</h2>
+            <div [innerHtml]="diagnosticValidate"></div>-->
+        </div>
+    </div>
+</div>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">&nbsp;</h5>
+            </div>
+            <div class="modal-body">
+                <p>Acción realizada satisfactoriamente</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Cerrar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
