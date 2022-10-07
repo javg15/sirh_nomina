@@ -21,6 +21,7 @@ import Categorias, {  } from './categorias';
 import Categoriasasignacion, {  } from './categoriasasignacion';
 import Cattiposadeudos, {  } from './cattiposadeudos';
 import Cattiposdevoluciones, {  } from './cattiposdevoluciones';
+import Calculoprincipal, {  } from './calculoprincipal';
 import Log, { LogInitializer, LogId } from './log';
 import Modulos, { ModulosInitializer, ModulosId } from './modulos';
 import Personal, { PersonalInitializer, } from './personal';
@@ -50,6 +51,7 @@ type Model =
   | Percepcionesadeudos
   | Deduccionesdevoluciones
   | Categorias
+  | Calculoprincipal
   | Log
   | Modulos
   | Personal
@@ -79,6 +81,7 @@ interface ModelTypeMap {
   'recibos':Recibos;
   'retroactivos': Retroactivos;
   'compensaciones':Compensaciones;
+  'calculoprincipal':Calculoprincipal;
   'log': Log;
   'modulos': Modulos;
   'personal': Personal;
@@ -144,6 +147,7 @@ export {
   Retroactivos,
   Compensaciones,
   Deduccionesdevoluciones,
+  Calculoprincipal,
   Log, LogInitializer, LogId,
   Modulos, ModulosInitializer, ModulosId,
   Personal, PersonalInitializer,

@@ -76,6 +76,12 @@ export class CatquincenaService {
       {}
       , httpOptions);
   }
+  public getCatalogoMenorActiva(): Observable<any> {
+    return this.http.post(this.API_URL + '/catquincena/getCatalogoMenorActiva',
+      {}
+      , httpOptions);
+  }
+  
   
   public getCatalogoRetroactivo(): Observable<any> {
     return this.http.post(this.API_URL + '/catquincena/getCatalogoRetroactivo',

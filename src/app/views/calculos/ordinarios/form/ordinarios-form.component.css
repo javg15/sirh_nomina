@@ -1,0 +1,68 @@
+.modal-header {
+    background: #eee;
+}
+
+.modal-body {
+    background: #ddd;
+}
+
+.table {
+    display: table;         
+    width: auto;         
+    /*border: 1px solid #666666;         */
+    border-spacing: 5px; /* cellspacing:poor IE support for  this */
+  }
+  .tr {
+    display: table-row;
+    width: auto;
+    clear: both;
+  }
+  .td,.th {
+    float: left; /* fix for  buggy browsers */
+    display: table-column;         
+        
+  }
+
+.tablaInfo{
+    margin-top: 0px;
+}
+.tablaInfo {
+    border-spacing: 10px;
+    border-collapse: separate;
+    font-size: 12px;
+    width: 100%;
+}
+
+.tablaInfo .titulo {
+    border-spacing: 0px;
+    border-collapse: separate;
+}
+.tablaInfo .titulo .td {
+    text-align: center;
+    width: inherit;
+}
+
+.tablaInfo,
+.tablaInfo .tr,
+.tablaInfo .td{
+    border: none;
+    background-color: rgb(255, 255, 255);
+    color: #000;
+}
+
+.tablaInfo .td,
+.tablaInfoSub .td {
+   
+    padding: 2px;
+}
+
+.tablaInfo .tr .td:nth-child(odd),
+.tablaInfo .tr .th:nth-child(odd) {
+    font-weight: bold;
+    width:10%;
+}
+
+.tablaInfo .tr .td:nth-child(even),
+.tablaInfo .tr .th:nth-child(even){
+    width:20%;
+}

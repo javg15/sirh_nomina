@@ -5,6 +5,10 @@ import { RetroactivosAdminComponent } from './retroactivos/admin/retroactivos-ad
 import { RetroactivosIniService } from './retroactivos/services/retroactivos.ini.service';
 import { RetroactivosFormComponent } from './retroactivos/form/retroactivos-form.component';
 
+import { OrdinariosAdminComponent } from './ordinarios/admin/ordinarios-admin.component';
+import { OrdinariosIniService } from './ordinarios/services/ordinarios.ini.service';
+import { OrdinariosFormComponent } from './ordinarios/form/ordinarios-form.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -35,6 +39,28 @@ const routes: Routes = [
         
       },
       
+      {
+        path: 'ordinarios',
+        redirectTo: 'ordinarios/admin'
+      },
+      {
+        path: 'ordinarios/admin',
+        component: OrdinariosAdminComponent,
+        data: {
+          title: 'Ordinarios'
+        },
+        resolve: {
+          userdata: OrdinariosIniService,
+        }
+      },
+      {
+        path: 'ordinarios/form',
+        component: OrdinariosFormComponent,
+        data: {
+          title: 'Ordinarios'
+        },
+        
+      },
       
     ]
   }

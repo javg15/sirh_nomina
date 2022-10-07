@@ -9,6 +9,9 @@ import { CalculosStartRoutingModule } from './calculosstart-routing.module';
 import { RetroactivosAdminComponent } from './retroactivos/admin/retroactivos-admin.component';
 import { RetroactivosFormComponent } from './retroactivos/form/retroactivos-form.component';
 
+import { OrdinariosAdminComponent } from './ordinarios/admin/ordinarios-admin.component';
+import { OrdinariosFormComponent } from './ordinarios/form/ordinarios-form.component';
+
 import { DataTablesModule } from 'angular-datatables';
 import { NgSelect2Module } from 'ng-select2';
 
@@ -47,17 +50,21 @@ import { DatePipe } from '@angular/common'
   declarations: [
     RetroactivosAdminComponent,
     RetroactivosFormComponent,
+
+    OrdinariosAdminComponent,
+    OrdinariosFormComponent,
     
     ReplacePipe
   ],
   providers: [
-    //PersonalService
     DatePipe
   ],
   exports: [
     RetroactivosAdminComponent,
     RetroactivosFormComponent,
     
+    OrdinariosAdminComponent,
+    OrdinariosFormComponent,
   ]
 })
 export class CalculosStartModule { }
