@@ -56,6 +56,12 @@ export class OrdinariosService {
       , httpOptions);
   }
 
+  public getRecord(id: any): Observable<any> {
+    return this.http.post(this.API_URL + '/calculoprincipal/getRecord',
+      { id }
+      , httpOptions);
+  }
+
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public ejecutarCalculo(dataPack, actionForm): Observable<any> {
 

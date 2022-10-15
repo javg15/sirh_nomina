@@ -65,13 +65,25 @@
                                     <div class="tr">
                                         <div class="td"> {{ col.cvep }} </div>
                                         <div class="td"> {{ col.descp }} </div>
-                                        <div class="td"> {{ col.impop }} </div>
+                                        <div class="td" style="text-align: right !important;"> {{ moneda(col.impop) }} </div>
                                         <div class="td" >&nbsp;&nbsp;&nbsp;</div>
                                         <div class="td"> {{ col.cved }} </div>
                                         <div class="td"> {{ col.descd }} </div>
-                                        <div class="td"> {{ col.impod }} </div>
+                                        <div class="td" style="text-align: right !important;"> {{ moneda(col.impod) }} </div>
                                     </div>
                                 </ng-container>
+                                <div class="tr">
+                                    <div class="td" style="width: 30% !important;font-weight: bold !important;"> Suma de percepciones </div>
+                                    <div class="td" style="font-weight: bold !important;text-align: right !important;width: 10% !important;"> {{ moneda(suma_percepciones) }} </div>
+                                    <div class="td" style="width: 20% !important;">&nbsp;&nbsp;&nbsp;</div>
+                                    <div class="td" style="width: 30% !important;font-weight: bold !important;"> Suma de deducciones </div>
+                                    <div class="td" style="font-weight: bold !important;text-align: right !important;width: 10% !important;"> {{ moneda(suma_deducciones) }} </div>
+                                </div>
+                                <div class="tr">
+                                    <div class="td" style="width: 60% !important;">&nbsp;&nbsp;&nbsp;</div>
+                                    <div class="td" style="width: 30% !important;font-weight: bold !important;"> TOTAL NETO </div>
+                                    <div class="td" style="font-weight: bold !important;text-align: right !important;width: 10% !important;"> {{ moneda(suma_total) }} </div>
+                                </div>
                                     
                             </div>
                         </div>

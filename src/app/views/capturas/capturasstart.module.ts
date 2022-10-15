@@ -34,8 +34,6 @@ const maskConfig: Partial<IConfig> = {
   validation: false,
 };
 
-import { ReplacePipe } from '../../_services/replace-pipe';
-
 import { DatePipe } from '@angular/common'
 
 @NgModule({
@@ -67,7 +65,6 @@ import { DatePipe } from '@angular/common'
     ReduccionesFormComponent,
     RecibosAdminComponent,
     RecibosFormComponent,
-    ReplacePipe
   ],
   providers: [
     //PersonalService

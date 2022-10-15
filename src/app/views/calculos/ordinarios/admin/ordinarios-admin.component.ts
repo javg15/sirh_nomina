@@ -181,16 +181,10 @@ export class OrdinariosAdminComponent implements OnInit {
     });
   }
 
-  onSelectQuincena(idx, id_campo) {
-    this.dtOptionsAdicional.fkeyvalue=[
-      (this.record_id_catquincena==null?0:this.record_id_catquincena),
-    ];
-
-    //si no es la carga inicial
-    if(!(this.esInicio && this.dtOptionsAdicional.fkeyvalue[0]==0))
-      {
-        this.reDraw();
-      }
+  onSelectQuincena(select_quincena) {
+    this.record_id_catquincena=select_quincena;
+    if(select_quincena!=0)
+      this.onClickBuscar();
   }
 
   onClickBuscar() {
@@ -202,9 +196,7 @@ export class OrdinariosAdminComponent implements OnInit {
     ];
 
     //si no es la carga inicial
-    if(this.esInicio==false && !(this.dtOptionsAdicional.fkeyvalue[0]==0
-      && this.dtOptionsAdicional.fkeyvalue[1]==0
-      && this.dtOptionsAdicional.fkeyvalue[2]==0))
+    if(this.esInicio==false && !(this.dtOptionsAdicional.fkeyvalue[0]==0))
       {
         this.reDraw();
       }

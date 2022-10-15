@@ -3,16 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { TokenStorageService } from '../../../../_services/token-storage.service';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Calculoprincipal, Personal, Catquincena, Catpercepciones} from '../../../../_models';
+import { Calculoprincipal} from '../../../../_models';
 import { OrdinariosService } from '../services/ordinarios.service';
-import { PersonalService } from '../../../catalogos/personal/services/personal.service';
-import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
-import { CatpercepcionesService } from '../../../catalogos/catpercepciones/services/catpercepciones.service';
-import { Archivos } from '../../../../_models';
+import { PlazasService } from '../../../plazas/plazas/services/plazas.service';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
+import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
 
 
@@ -51,17 +49,21 @@ export class OrdinariosFormComponent implements OnInit, OnDestroy {
   keywordSearch = 'full_name';
   isLoadingSearch: boolean;
   record_personal:any;
+  record_numeemp: string;
   editarQuincenaFinal:boolean=true;
+  tblNombramientos: [];
 
+  suma_percepciones:number=0;
+  suma_deducciones:number=0;
+  suma_total:number=0;
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(
     private tokenStorage: TokenStorageService,
     private isLoadingService: IsLoadingService,
     private ordinariosSvc: OrdinariosService,
+    private plazasSvc: PlazasService,
     private personalSvc: PersonalService,
-    private catquincenaSvc: CatquincenaService,
-    private catpercepcionesSvc:CatpercepcionesService,
     private el: ElementRef,
     private route: ActivatedRoute
   ) {
@@ -114,7 +116,24 @@ export class OrdinariosFormComponent implements OnInit, OnDestroy {
 
     this.ordinariosSvc.getCalculado(idItem).subscribe(resp => {
       this.registros=resp;
+      this.suma_percepciones=resp.map(a => a.impop).reduce((acumulado, importe) => parseFloat(acumulado) + 0 + parseFloat(importe));
+      this.suma_deducciones=resp.map(a => a.impod).reduce((acumulado, importe) => parseFloat(acumulado) + 0 + parseFloat(importe));
+      this.suma_total=this.suma_percepciones - this.suma_deducciones;
     });
+
+    this.ordinariosSvc.getRecord(idItem).subscribe(resp => {
+      this.record=resp;
+
+      this.plazasSvc.getNombramientosVigentes(this.record.id_personal, 0).subscribe(resp => {
+        this.tblNombramientos = resp;
+      });
+
+      this.personalSvc.getRecord(this.record.id_personal).subscribe(resp => {
+        this.record_numeemp = resp.numeemp;
+        this.tituloForm = "Estudios - " + resp.numeemp + " - " + (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
+      })
+    });
+
     this.basicModalOrdinarios.show();
   }
 
@@ -124,5 +143,18 @@ export class OrdinariosFormComponent implements OnInit, OnDestroy {
     if (this.actionForm.toUpperCase() != "VER") {
       this.redrawEvent.emit(null);
     }
+  }
+
+  moneda(dato):string{
+    var formatter = new Intl.NumberFormat('es-MX', {
+      style: 'currency',
+      currency: 'MXN',
+    
+      // These options are needed to round to whole numbers if that's what you want.
+      //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+      //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+    });
+    
+    return formatter.format(dato);
   }
 }
